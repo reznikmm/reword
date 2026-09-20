@@ -1,0 +1,30 @@
+name = "reword"
+description = "Machine translation with LLM"
+version = "0.1.0-dev"
+
+authors = ["Max Reznik"]
+maintainers = ["Max Reznik <reznikmm@gmail.com>"]
+maintainers-logins = ["reznikmm"]
+licenses = "Apache-2.0 WITH LLVM-exception"
+website = "https://github.com/reznikmm/reword"
+tags = []
+
+[build-switches]
+"*".Ada_Version = "Ada2022"
+development.optimization = ["-O0"]
+development.style_checks = ["-gnaty", "-gnaty-B"]
+development.contracts = "Yes"
+"*".debug_info = "Yes"
+
+[[actions]]
+type = "test"
+command = ["alr", "-C" , "testsuite", "run"]
+
+[[depends-on]]
+chat_completions_api = "~0.1.0-dev"
+
+[[pins]]
+chat_completions_api = { url='https://github.com/reznikmm/chat_completions_api' }
+
+[[depends-on]]
+vss_extra = "^26.2.0"
