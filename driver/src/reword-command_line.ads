@@ -14,4 +14,10 @@ package Reword.Command_Line is
    --  when the input file is missing, an unknown option is given, or
    --  --help is requested.
 
+   function Server_URL return VSS.Strings.Virtual_String;
+   --  Parse the command line and return the URL of the OpenAI-compatible
+   --  chat completions endpoint, taken from the --server-url option, or
+   --  "http://localhost:8080/v1/chat/completions" when the option is not
+   --  given.
+
 end Reword.Command_Line;

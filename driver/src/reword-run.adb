@@ -41,7 +41,11 @@ begin
 
    Input.Close;
 
-   Reword.Translate (Text, Result => Translation, Error => Error);
+   Reword.Translate
+     (Text,
+      Server_URL => Reword.Command_Line.Server_URL,
+      Result     => Translation,
+      Error      => Error);
 
    if not Error.Is_Empty then
       Error_Sink.Put_Line (Error, Ok);
