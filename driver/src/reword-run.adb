@@ -11,6 +11,8 @@ with VSS.Strings;
 with VSS.Text_Streams.File_Input;
 with VSS.Text_Streams.Standards;
 
+with Reword.Command_Line;
+
 procedure Reword.Run is
    Input       : VSS.Text_Streams.File_Input.File_Input_Text_Stream;
    Output      : VSS.Text_Streams.Output_Text_Stream'Class :=
@@ -23,7 +25,7 @@ procedure Reword.Run is
    Translation : VSS.Strings.Virtual_String;
    Error       : VSS.Strings.Virtual_String;
 begin
-   Input.Open ("input.txt");
+   Input.Open (Reword.Command_Line.Input_File);
 
    while not Input.Is_End_Of_Stream loop
       Input.Get (Item, Ok);

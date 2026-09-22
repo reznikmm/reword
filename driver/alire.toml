@@ -28,6 +28,7 @@ development.contracts = "Yes"
 [[depends-on]]
 trendy_test = "^0"
 reword = "*"
+vss_extra = "^26.2.0"
 
 [[pins]]
 reword = { path = ".." }
