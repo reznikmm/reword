@@ -12,8 +12,11 @@ with VSS.Text_Streams.File_Input;
 with VSS.Text_Streams.Standards;
 
 with Reword.Command_Line;
+with Reword.Markdown_Files;
 
 procedure Reword.Run is
+   Input_File  : constant VSS.Strings.Virtual_String :=
+     Reword.Command_Line.Input_File;
    Input       : VSS.Text_Streams.File_Input.File_Input_Text_Stream;
    Output      : VSS.Text_Streams.Output_Text_Stream'Class :=
      VSS.Text_Streams.Standards.Standard_Output;
@@ -25,7 +28,7 @@ procedure Reword.Run is
    Translation : VSS.Strings.Virtual_String;
    Error       : VSS.Strings.Virtual_String;
 begin
-   Input.Open (Reword.Command_Line.Input_File);
+   Input.Open (Input_File);
 
    while not Input.Is_End_Of_Stream loop
       Input.Get (Item, Ok);
@@ -41,11 +44,19 @@ begin
 
    Input.Close;
 
-   Reword.Translate
-     (Text,
-      Server_URL => Reword.Command_Line.Server_URL,
-      Result     => Translation,
-      Error      => Error);
+   if Input_File.Ends_With (".md") then
+      Reword.Markdown_Files.Translate
+        (Text,
+         Server_URL => Reword.Command_Line.Server_URL,
+         Result     => Translation,
+         Error      => Error);
+   else
+      Reword.Translate
+        (Text,
+         Server_URL => Reword.Command_Line.Server_URL,
+         Result     => Translation,
+         Error      => Error);
+   end if;
 
    if not Error.Is_Empty then
       Error_Sink.Put_Line (Error, Ok);

@@ -3,6 +3,7 @@
 --  SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
 with "config/driver_config.gpr";
+with "markdown.gpr";
 with "vss_os.gpr";
 project Driver is
 

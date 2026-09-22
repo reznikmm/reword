@@ -28,3 +28,9 @@ chat_completions_api = { url='https://github.com/reznikmm/chat_completions_api' 
 
 [[depends-on]]
 vss_extra = "^26.2.0"
+
+[[depends-on]]
+markdown = "^26.0.0"
+
+[[pins]]
+markdown = { url='https://github.com/reznikmm/markdown2', branch='topic/line_index' }

@@ -29,6 +29,7 @@ development.contracts = "Yes"
 trendy_test = "^0"
 reword = "*"
 vss_extra = "^26.2.0"
+markdown = "^26.0.0"
 
 [[pins]]
 reword = { path = ".." }

@@ -10,9 +10,13 @@ by default).
 ## Repository Map
 
 - `source/`: Core library logic (`Reword.*` packages)
-- `driver/`: Separate `reword-run` command-line crate. Reads text from
-  `input.txt`, calls `Reword.Translate`, prints the result to standard
-  output
+- `driver/`: Separate `reword-run` command-line crate. Reads the input
+  file path and `--server-url` from the command line
+  (`Reword.Command_Line`), reads the file, then calls `Reword.Translate`
+  for plain text or, when the file name ends with `.md`,
+  `Reword.Markdown_Files.Translate` to translate the file block by block
+  (via the `markdown` crate) while leaving code blocks untouched; prints
+  the result to standard output
 - `testsuite/`: Separate test suite crate
 - `config/`: Build-time configuration artifacts written by Alire (do not edit manually)
 - `.obj/`, `.lib/`: Build outputs (do not edit manually)
@@ -36,8 +40,10 @@ Run from repository root unless noted otherwise.
   - `alr -C testsuite/ run`
 - Build the CLI driver (from `driver/`):
   - `alr build`
-- Run the CLI driver (from `driver/`, reads `input.txt` in the current directory):
-  - `alr run` or `./bin/reword-run`
+- Run the CLI driver (from `driver/`, input file path is a required positional argument):
+  - `./bin/reword-run <input-file>` (add `--server-url=<url>` to override the
+    default `http://localhost:8080/v1/chat/completions`, or `--help` for
+    usage)
 
 ## Change Workflow For Agents
 

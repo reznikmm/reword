@@ -20,6 +20,7 @@ Key directories and files:
 - `source/` - library units (`Reword` package)
 - `reword.gpr` - root GPR project file for the library
 - `alire.toml` - root crate metadata and test action
+- `driver/` - separate Alire crate for the `reword-run` command-line driver
 - `testsuite/` - separate Alire crate for tests
 - `AGENTS.md` - repository-specific instructions for coding agents
 
@@ -45,7 +46,33 @@ alr -C testsuite run
 
 ## Using This Reword
 
-TBD
+Build the library and the `reword-run` command-line driver:
+
+```sh
+alr build
+alr -C driver build
+```
+
+Run it against a file, given as a positional argument; the translation is
+printed to standard output:
+
+```sh
+./driver/bin/reword-run path/to/file.txt
+```
+
+By default `reword-run` talks to an OpenAI-compatible chat completions
+server (such as `llama.cpp`'s `llama-server`) at
+`http://localhost:8080/v1/chat/completions`. Point it elsewhere with
+`--server-url`:
+
+```sh
+./driver/bin/reword-run --server-url=http://localhost:8081/v1/chat/completions path/to/file.txt
+```
+
+When the input file name ends with `.md`, `reword-run` parses it as
+Markdown and translates it block by block, leaving fenced and indented
+code blocks untouched so code samples in documentation are not sent to
+the LLM.
 
 ## Maintainer
 
