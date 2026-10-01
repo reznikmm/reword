@@ -5,6 +5,7 @@
 
 pragma Ada_2022;
 
+with Ada.Characters.Wide_Wide_Latin_1;
 with Chat_Completions_API.Chats;
 with Chat_Completions_API.Types;
 with VSS.Strings.Formatters.Strings;
@@ -31,17 +32,27 @@ package body Reword is
    is
       use type VSS.Strings.Virtual_String;
 
+      Line_Feed renames Ada.Characters.Wide_Wide_Latin_1.LF;
       --  Prompt template recommended by the Hy-MT2 model card: a single
       --  user turn, no system prompt, asking for the translation alone.
       Prompt_Template :
         constant VSS.Strings.Templates.Virtual_String_Template :=
           VSS.Strings.Templates.To_Virtual_String_Template
-            ("Translate the following text into {}. Note that you should "
-             & "only output the translated result without any additional "
-             & "explanation:"
-             & Wide_Wide_Character'Val (10)
-             & Wide_Wide_Character'Val (10)
-             & "{}");
+      ("### Task" & Line_Feed &
+         "Translate the user-facing text within the following Markdown data" &
+         " into {}." & Line_Feed &
+         Line_Feed &
+         "### Strict Rules" & Line_Feed &
+         "1. Structure Preservation: You MUST preserve the original Markdown" &
+         " data structure, nesting, hierarchy, and indentation exactly as" &
+         " they are." & Line_Feed &
+         "2. Selective Translation: Translate ONLY the visible, user-facing" &
+         " text content/values." & Line_Feed &
+         "3. Strict Non-Translation: NEVER translate or alter code tags," &
+         " keys, properties, object names, or variable placeholders. Leave" &
+         " them exactly in their original English/code form." & Line_Feed &
+         "### Source Data" & Line_Feed &
+         "{}");
 
       Prompt : constant VSS.Strings.Virtual_String :=
         Prompt_Template.Format
